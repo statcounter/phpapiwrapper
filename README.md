@@ -12,13 +12,13 @@ This wrapper provides a PHP interface to the StatCounter API.  It provides a num
 To start using, include StatCounter.php in your script using a statement like this:
 
 ```php
-<?php include("StatCounter.php"); ?>
+<?php include("StatCounterAPI.php"); ?>
 ```
 
 Then, create a new StatCounter instance using your StatCounter username and password:
 
 ```php
-$sc = new StatCounter("myusername", "mypassword");
+$sc = new StatCounterAPI("myusername", "mypassword");
 ```
 
 Now, assuming you've entered a correct username and password you can use any of the methods available.

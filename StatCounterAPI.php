@@ -5,7 +5,7 @@
  *
  * http://api.statcounter.com
  */
-class StatCounter {
+class StatCounterAPI {
 
     private $sc_base_url = "http://api.statcounter.com";
     private $sc_version_num = "3";
