@@ -22,13 +22,23 @@ class StatCounterAPI {
         $this->sc_password = $sc_password;
         $this->sc_query_string = "";
     }
+    
+    /**
+     * Returns true if the username and password of the instance are valid
+     */
+    public function valid_login() {
+        
+        $url = $this->build_url("user_projects");
+
+        $xml = simplexml_load_file($url);
+        
+        return ($xml->attributes()->status == "ok");
+    }
 
     /**
      * Gets all of the user projects for the user with username and password as specified in initial construction
      */
     public function get_user_project_details() {
-
-        $this->sc_query_string = "&f=xml";
 
         $url = $this->build_url("user_projects");
 
@@ -68,7 +78,7 @@ class StatCounterAPI {
             "&wt=" . urlencode($website_title) .
             "&wu=" . urlencode($website_url) .
             "&tz=" . urlencode($timezone) .
-            "&ps=0&f=xml";
+            "&ps=0";
 
         $url = $this->build_url("add_project");
 
@@ -94,8 +104,7 @@ class StatCounterAPI {
         $this->sc_query_string = 
             "&s=keyword-activity" .
             "&pi=" . $project_id .
-            "&n=" . $num_of_results .
-            "&f=xml";
+            "&n=" . $num_of_results;
 
         $url = $this->build_url("stats");
 
@@ -132,8 +141,7 @@ class StatCounterAPI {
             "&s=popular" .
             "&pi=" . $project_id .
             "&n=" . $num_of_results .
-            "&ct=" . $count_type .
-            "&f=xml";
+            "&ct=" . $count_type;
 
         $url = $this->build_url("stats");
 
@@ -166,8 +174,7 @@ class StatCounterAPI {
         $this->sc_query_string = 
             "&s=entry" .
             "&pi=" . $project_id .
-            "&n=" . $num_of_results .
-            "&f=xml";
+            "&n=" . $num_of_results;
 
         $url = $this->build_url("stats");
 
@@ -199,8 +206,7 @@ class StatCounterAPI {
         $this->sc_query_string = 
             "&s=exit" .
             "&pi=" . $project_id .
-            "&n=" . $num_of_results .
-            "&f=xml";
+            "&n=" . $num_of_results;
 
         $url = $this->build_url("stats");
 
@@ -233,8 +239,7 @@ class StatCounterAPI {
             "&s=camefrom" .
             "&pi=" . $project_id .
             "&n=" . $num_of_results .
-            "&e=" . $external .
-            "&f=xml";
+            "&e=" . $external;
 
         $url = $this->build_url("stats");
 
@@ -273,8 +278,7 @@ class StatCounterAPI {
         $this->sc_query_string = 
             "&s=browsers" .
             "&de=" . $device .
-            "&pi=" . $project_id .
-            "&f=xml";
+            "&pi=" . $project_id;
 
         $url = $this->build_url("stats");
 
@@ -311,10 +315,8 @@ class StatCounterAPI {
 
         $this->sc_query_string = "&s=os" .
             "&de=" . $device .
-            "&pi=" . $project_id .
+            "&pi=" . $project_id;
             
-            "&f=xml";
-
         $url = $this->build_url("stats");
 
         $xml = simplexml_load_file($url);
@@ -350,10 +352,8 @@ class StatCounterAPI {
         $this->sc_query_string = 
             "&s=pageload" .
             "&de=" . $device .
-            "&pi=" . $project_id .
+            "&pi=" . $project_id;
             
-            "&f=xml";
-
         $url = $this->build_url("stats");
 
         $xml = simplexml_load_file($url);
@@ -403,10 +403,8 @@ class StatCounterAPI {
         $this->sc_query_string = 
             "&s=exit-link-activity" .
             "&de=" . $device .
-            "&pi=" . $project_id .
+            "&pi=" . $project_id;
             
-            "&f=xml";
-
         $url = $this->build_url("stats");
 
         $xml = simplexml_load_file($url);
@@ -444,10 +442,8 @@ class StatCounterAPI {
         $this->sc_query_string = 
             "&s=download-link-activity" .
             "&de=" . $device .
-            "&pi=" . $project_id .
+            "&pi=" . $project_id;
             
-            "&f=xml";
-
         $url = $this->build_url("stats");
 
         $xml = simplexml_load_file($url);
@@ -519,9 +515,8 @@ class StatCounterAPI {
             "&ed=" . $end_day .
             "&em=" . $end_month .
             "&ey=" . $end_year .
-            "&pi=" . $project_id .
-            "&f=xml";
-
+            "&pi=" . $project_id;
+            
         $url = $this->build_url("stats");
 
         $xml = simplexml_load_file($url);
@@ -555,8 +550,7 @@ class StatCounterAPI {
             "&s=visitor" .
             "&g=daily" .
             "&pi=" . $project_id .
-            "&n=" . $num_of_results .
-            "&f=xml";
+            "&n=" . $num_of_results;
 
         $url = $this->build_url("stats");
 
@@ -613,10 +607,11 @@ class StatCounterAPI {
 
         $base = $this->sc_base_url . "/" . $function . "/";
         
-        $this->sc_query_string =  "?vn=" . $this->sc_version_num .
-                        "&t=" . time() .
-                        "&u=" . $this->sc_username .
-						 $this->sc_query_string;
+        $this->sc_query_string = "?vn=" . $this->sc_version_num .
+                                 "&t=" . time() .
+                                 "&u=" . $this->sc_username .
+                                 $this->sc_query_string . 
+                                 "&f=xml";
 			
         $sha1 = sha1($this->sc_query_string . $this->sc_password);
 
@@ -658,6 +653,7 @@ class StatCounterAPI {
      * Else returns false
      */
     private function valid_timezone($timezone) {
+    
         return in_array($timezone, timezone_identifiers_list());
     }
 }
