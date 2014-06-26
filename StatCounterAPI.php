@@ -34,6 +34,27 @@ class StatCounterAPI {
         
         return ($xml->attributes()->status == "ok");
     }
+    
+    /**
+     * Returns an array with the user's details
+     */
+    public function get_user_details() {
+        
+        $url = $this->build_url("user_details");
+        
+        $xml = simplexml_load_file($url);
+        
+        if ($xml->attributes()->status == "ok") {
+	
+            $result = array("name" => $xml->sc_data->name[0],
+                    "email" => $xml->sc_data->email[0],
+                    "log_quota" => $xml->sc_data->log_quota[0]
+                );
+			
+            return $result;
+        }
+        throw new Exception("XML error: Check your username and password.");
+    }
 
     /**
      * Gets all of the user projects for the user with username and password as specified in initial construction
@@ -657,4 +678,5 @@ class StatCounterAPI {
         return in_array($timezone, timezone_identifiers_list());
     }
 }
+
 ?>
