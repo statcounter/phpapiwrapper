@@ -106,10 +106,15 @@ class StatCounterAPI {
         $xml = simplexml_load_file($url);
 
         if ($xml->attributes()->status == "ok") {
+	        
+	        $result = array();
 
-            $result = array("project_id" => $xml->project_id,
-                            "security_code" => $xml->security_code
+            foreach ($xml->sc_data as $sc_project) {
+
+                $result = array("project_id" => $xml->sc_data->project_id,
+                            "security_code" => $xml->sc_data->security_code
                             );
+            }
 
             return $result;
         }
