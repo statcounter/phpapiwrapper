@@ -100,11 +100,11 @@ foreach ($stats as $date) {
 }
 ```
 
-####Get X number of most recent visitors for project ID
-Returns stats on the latest X number of recent visitors
+####Recent Visitors
+Returns 20 recent visitors for the project ID "928193" and the date range December 1-2, 2015
 
 ```php
-$recent_visitors = $sc->get_recent_visitors("928193", 100);
+$recent_visitors = $sc->get_recent_visitors_date_range("928193", "12/01/2015", "12/02/2015", 20);
 
 foreach ($recent_visitors as $visitor) {
 
@@ -139,17 +139,11 @@ foreach ($recent_visitors as $visitor) {
 }
 ```
 
-#### Get X number of recent keywords for project ID
-Returns a given number of recent keywords for the given project ID
+#### Recent Keyword Activity
+Returns last 20 keyword activity data for the project ID "928193" and the date range December 1-2, 2015
 
 ```php
-$recent_keywords = $sc->get_recent_keyword_activity("939204", 100);
-```
-
-Or, you can choose to exclude Google's ***Encrypted Search*** queries like so:
-
-```php
-$recent_keywords = $sc->get_recent_keyword_activity("939204", 100, true);
+$recent_keywords = $sc->get_recent_keyword_activity("928193", "12/01/2015", "12/02/2015", 20);
 ```
 
 Then you can iterate through the fetched keywords:
